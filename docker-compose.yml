@@ -1,0 +1,33 @@
+version: '3'
+services:
+  serveur:
+    build:
+      context: ./serveur
+    volumes:
+      - ./serveur/app:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: ./api
+    volumes:
+      - ./api/app:/app
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    # restart: always
+    # container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    # volumes:
+    #   - ./mongo:/data/db

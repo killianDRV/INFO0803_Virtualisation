@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Contacts</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            justify-content: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            margin-top: 20px;
+        }
+        .form-container, .table-container {
+            width: 100%;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .delete-cell {
+            text-align: center;
+        }
+        .delete-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: inherit;
+        }
+        .no-underline {
+            text-decoration: none;
+            color: inherit;
+        }
+        .no-underline:hover {
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Ajouter un Contact</h1>
+            <form id="contactForm" action="/contacts" method="post">
+                <label for="nom">Nom:</label><br>
+                <input type="text" id="nom" name="nom" required><br><br>
+
+                <label for="prenom">Prénom:</label><br>
+                <input type="text" id="prenom" name="prenom" required><br><br>
+
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required><br><br>
+
+                <label for="propriete">Propriété:</label><br>
+                <label for="employeur">Employeur:</label>
+                <input type="text" id="employeur" name="employeur" required><br><br>
+                <label for="poste">Poste:</label>
+                <input type="text" id="poste" name="poste" required><br><br>
+                <label for="responsable">Responsable:</label>
+                <input type="text" id="responsable" name="responsable" required><br><br>
+
+                <input type="submit" value="Ajouter">
+            </form>
+        </div>
+
+        <div class="filter-container">
+            <h1>Sélection d'un contact à partir de critères</h1>
+            <form id="filterForm" action="/filter_contacts" method="post">
+                <label for="critere">Critère:</label>
+                <select id="critere" name="critere">
+                    <option value="employeur" {% if current_critere == 'employeur' %}selected{% endif %}>Employeur</option>
+                    <option value="poste" {% if current_critere == 'poste' %}selected{% endif %}>Poste</option>
+                    <option value="responsable" {% if current_critere == 'responsable' %}selected{% endif %}>Responsable</option>
+                </select>
+                <label for="valeur">Valeur:</label>
+                <input type="text" id="valeur" name="valeur" value="{{ current_valeur }}" required>
+                <button type="submit">Filtrer</button>
+                <button type="button"><a href="/" class="no-underline">Réinitialiser</a></button>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h1>Contacts</h1>
+            <table id="contactsTable">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Email</th>
+                        <th>Propriété</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if search_contacts %}
+                        {% for contact in search_contacts %}
+                            <tr>
+                                <td>{{ contact.nom }}</td>
+                                <td>{{ contact.prenom }}</td>
+                                <td>{{ contact.email }}</td>
+                                <td>
+                                    Employeur: {{ contact.propriete.employeur }}<br>
+                                    Poste: {{ contact.propriete.poste }}<br>
+                                    Responsable: {{ contact.propriete.responsable }}
+                                </td>
+                                <td class="delete-cell"> <!-- Utilisation de la classe delete-cell -->
+                                    <form action="/delete_contact/{{ contact._id }}" method="POST" id="deleteForm_{{ contact._id }}" class="delete-form">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="delete-button" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')">🗑️</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% elif list_contacts %}
+                        {% for contact in list_contacts %}
+                            <tr>
+                                <td>{{ contact.nom }}</td>
+                                <td>{{ contact.prenom }}</td>
+                                <td>{{ contact.email }}</td>
+                                <td>
+                                    Employeur: {{ contact.propriete.employeur }}<br>
+                                    Poste: {{ contact.propriete.poste }}<br>
+                                    Responsable: {{ contact.propriete.responsable }}
+                                </td>
+                                <td class="delete-cell"> <!-- Utilisation de la classe delete-cell -->
+                                    <form action="/delete_contact/{{ contact._id }}" method="POST" id="deleteForm_{{ contact._id }}" class="delete-form">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="delete-button" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')">🗑️</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5">Aucun contact trouvé</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
