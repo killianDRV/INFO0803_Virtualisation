@@ -7,9 +7,7 @@ def initialize_db():
 
     # Sample data to insert
     sample_data = [
-        {"name": "Alice", "age": 28, "city": "New York"},
-        {"name": "Bob", "age": 24, "city": "Los Angeles"},
-        {"name": "Charlie", "age": 32, "city": "Chicago"}
+        {'nom': "kiki", 'prenom': "kiki", 'email': "kiki@gmail.com", 'propriete': {'employeur': "univ", 'poste': "univ", 'responsable': "univ"}}
     ]
 
     # Insert sample data into a collection
