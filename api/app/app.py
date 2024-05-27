@@ -6,20 +6,27 @@ import logging
 logger = logging.getLogger('gunicorn.error')
 
 app = Flask(__name__)
+# URL de la base de données MongoDB
 app.config['MONGO_URI'] = 'mongodb://root:example@mongo:27017/contact_db?authSource=admin'
 mongo = PyMongo(app)
 
+
+# Endpoint pour récupérer tous les contacts
 @app.route('/contacts', methods=['GET'])
 def get_contacts():
     try:
+        # Récupère tous les contacts depuis la base de données
         contacts = list(mongo.db.contacts.find())
+
         for contact in contacts:
             contact['_id'] = str(contact['_id'])
-        app.logger.debug(f"list_contacts > {contacts}")
+
         return jsonify(contacts), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
+# Endpoint pour ajouter un nouveau contact
 @app.route('/contacts', methods=['POST'])
 def add_contact():
     app.logger.debug("Received POST request to /contacts")
@@ -38,33 +45,43 @@ def add_contact():
     }
 
     try:
+        # Insere le nouveau contact dans la base de données
         result = mongo.db.contacts.insert_one(new_contact)
-        app.logger.debug("Contact added successfully")
+
         return jsonify({'message': 'Contact added successfully', 'id': str(result.inserted_id)}), 200
     except Exception as e:
         app.logger.error(f"Failed to add contact: {e}")
         return jsonify({'error': 'Failed to add contact'}), 500
 
 
+# Endpoint pour supprimer un contact par son ID
 @app.route('/contacts/<string:contact_id>', methods=['DELETE'])
 def delete_contact(contact_id):
-    result = mongo.db.contacts.delete_one({'_id': ObjectId(contact_id)})
-    if result.deleted_count == 0:
-        return jsonify({'error': 'Contact not found'}), 404
-    return jsonify({'message': 'Contact deleted successfully'}), 200
+    try:
+        # Supprime le contact de la base de données en utilisant son ObjectID
+        result = mongo.db.contacts.delete_one({'_id': ObjectId(contact_id)})
+
+        if result.deleted_count == 0:
+            return jsonify({'error': 'Contact not found'}), 404
+        
+        return jsonify({'message': 'Contact deleted successfully'}), 200
+    except Exception as e:
+        app.logger.error(f"Failed to delete contact: {e}")
+        return jsonify({'error': 'Failed to delete contact'}), 500
 
 
+# Endpoint pour filtrer les contacts par critère et valeur
 @app.route('/search/<string:critere>/<string:valeur>', methods=['GET'])
 def filter_contacts(critere, valeur):
-    app.logger.debug(f"critere ===== {critere}")
-    app.logger.debug(f"valeur ===== {valeur}")
+    # app.logger.debug(f"critere ===== {critere}")
+    # app.logger.debug(f"valeur ===== {valeur}")
 
     if critere and valeur:
-        # Filtrage basé sur le critère et la valeur avec regex pour recherche partielle
+        # Construit une requête mongo pour filtrer les contacts basés sur critere et valeur
         query = {f'propriete.{critere}': {'$regex': valeur, '$options': 'i'}}
         contacts = list(mongo.db.contacts.find(query))
     else:
-        # Récupération de tous les contacts si aucun critère n'est spécifié
+        # Si aucun critère n'est spécifié, récupère tous les contacts de la base de données
         contacts = list(mongo.db.contacts.find())
     
     for contact in contacts:
@@ -74,4 +91,5 @@ def filter_contacts(critere, valeur):
 
 
 if __name__ == '__main__':
+    # Démarre l'application Flask
     app.run(host='0.0.0.0', port=5001, debug=True)

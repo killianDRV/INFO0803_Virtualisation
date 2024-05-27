@@ -5,13 +5,33 @@ db = conn.getDB("contact_db");
 // data to insert
 var sample_data = [
     {
-        nom: "kiki",
-        prenom: "kiki",
-        email: "kiki@gmail.com",
+        nom: "Killian",
+        prenom: "Darville",
+        email: "killian.darville@etudiant.univ-reims.fr",
         propriete: {
-            employeur: "univ",
-            poste: "univ",
-            responsable: "univ"
+            employeur: "Université de Reims",
+            poste: "Étudiant",
+            responsable: "Mr. Fouchal"
+        }
+    },
+    {
+        nom: "Madippe",
+        prenom: "Goat",
+        email: "madippe.goat@RI.com",
+        propriete: {
+            employeur: "Université de Laon",
+            poste: "Étudiant",
+            responsable: "Mr. Rabat"
+        }
+    },
+    {
+        nom: "Alarig",
+        prenom: "bee",
+        email: "alarig@gmail.com",
+        propriete: {
+            employeur: "Académie de Reims",
+            poste: "Intérimaire",
+            responsable: "Mr. Stanek"
         }
     }
 ];
