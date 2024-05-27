@@ -78,7 +78,7 @@
                         <th>Supprimer</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tableBottom">
                     {% if search_contacts %}
                         {% for contact in search_contacts %}
                             <tr>
@@ -130,5 +130,14 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Permet de faire défiler la page vers le bas jusqu'à l'élément cible lors de l'ajout d'un nouvel utilisateur
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableBottom = document.getElementById('tableBottom');
+                if (tableBottom) {
+                tableBottom.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+        });
+    </script>
 </body>
 </html>
