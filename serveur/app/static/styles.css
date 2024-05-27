@@ -1,0 +1,33 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.container {
+    margin-top: 40px;
+}
+.delete-button {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 20px;
+}
+.no-underline {
+    text-decoration: none;
+    color: inherit;
+}
+.no-underline:hover {
+    color: inherit;
+}
+.btn-reset {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn-reset:hover {
+    background-color: #5a6268;
+    color: #fff;
+}

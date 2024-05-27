@@ -1,50 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Contacts</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .container {
-            margin-top: 40px;
-        }
-        .delete-button {
-            background: none;
-            border: none;
-            color: #dc3545;
-            cursor: pointer;
-            font-size: 20px;
-        }
-        .delete-button:hover {
-            color: #c82333;
-        }
-        .no-underline {
-            text-decoration: none;
-            color: inherit;
-        }
-        .no-underline:hover {
-            color: inherit;
-        }
-        /* Nouveaux styles pour le bouton Réinitialiser */
-        .btn-reset {
-            background-color: #6c757d; /* Couleur de fond grise */
-            color: #fff; /* Couleur de texte blanc */
-            border: none;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-        .btn-reset:hover {
-            background-color: #5a6268; /* Couleur de fond gris foncé au survol */
-            color: #fff; /* Couleur de texte blanche au survol */
-        }
-    </style>
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
 </head>
+
+
 <body>
     <div class="container">
         <div class="form-container mb-5">

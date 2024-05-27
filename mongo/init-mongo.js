@@ -31,7 +31,7 @@ var sample_data = [
         propriete: {
             employeur: "Académie de Reims",
             poste: "Intérimaire",
-            responsable: "Mr. Stanek"
+            responsable: "Mr. Pessi"
         }
     }
 ];
