@@ -5,8 +5,8 @@ db = conn.getDB("contact_db");
 // data to insert
 var sample_data = [
     {
-        nom: "Killian",
-        prenom: "Darville",
+        nom: "Darville",
+        prenom: "Killian",
         email: "killian.darville@etudiant.univ-reims.fr",
         propriete: {
             employeur: "Université de Reims",
@@ -15,8 +15,8 @@ var sample_data = [
         }
     },
     {
-        nom: "Madippe",
-        prenom: "Goat",
+        nom: "Goat",
+        prenom: "Madippe",
         email: "madippe.goat@RI.com",
         propriete: {
             employeur: "Université de Laon",
@@ -25,8 +25,8 @@ var sample_data = [
         }
     },
     {
-        nom: "Alarig",
-        prenom: "bee",
+        nom: "Bee",
+        prenom: "Alarig",
         email: "alarig@gmail.com",
         propriete: {
             employeur: "Académie de Reims",
